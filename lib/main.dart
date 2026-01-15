@@ -144,11 +144,14 @@ class _LoginScreenState extends State<LoginScreen> {
       print('***** Starting Google OAuth flow...');
       print('***** Current auth state: ${Supabase.instance.client.auth.currentSession != null}');
       
-      // Use explicit redirectTo with proper scheme
+      // Use explicit redirectTo with proper scheme and force account picker
       final result = await Supabase.instance.client.auth.signInWithOAuth(
         OAuthProvider.google,
         redirectTo: 'io.supabase.flutterquickstart://login-callback',
         authScreenLaunchMode: LaunchMode.externalApplication,
+        queryParams: {
+          'prompt': 'select_account', // Forces Google account picker to appear
+        },
       );
       
       print('***** OAuth launch result: $result');
